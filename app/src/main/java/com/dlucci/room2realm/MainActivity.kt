@@ -13,6 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.dlucci.room2realm.databinding.ActivityMainBinding
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -28,6 +31,13 @@ class MainActivity : AppCompatActivity() {
 
     val viewModel: MainViewModel by viewModels()
 
+    val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE DayOfWeek ADD COLUMN time TEXT")
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,7 +50,8 @@ class MainActivity : AppCompatActivity() {
             this,
             AppDatabase::class.java,
             "room2realm"
-        ).build()
+        ).addMigrations(MIGRATION_1_2)
+            .build()
 
         viewModel.db = db
 
@@ -76,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         val days = listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
         var retVal = ArrayList<DayOfWeek>()
         for ( i in 0..6) {
-            var day = DayOfWeek(i, days[i])
+            var day = DayOfWeek(i, days[i], "15:35")
             retVal.add(day)
         }
 
