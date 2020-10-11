@@ -9,13 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dlucci.room2realm.databinding.RowBinding
 import java.util.*
 
-class MyAdapter(days : List<String>) : RecyclerView.Adapter<MyViewHolder>() {
+class MyAdapter(days : List<DayOfWeek>) : RecyclerView.Adapter<MyViewHolder>() {
 
     private val TAG = "MyAdapter"
 
     val days = days
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding : RowBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.row,  parent,false)
@@ -25,7 +23,7 @@ class MyAdapter(days : List<String>) : RecyclerView.Adapter<MyViewHolder>() {
     override fun getItemCount() = days.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.days.text = days[position]
+        holder.binding.days.text = days[position].day
     }
 
 }
