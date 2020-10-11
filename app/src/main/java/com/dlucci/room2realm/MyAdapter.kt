@@ -23,7 +23,7 @@ class MyAdapter(days : List<DayOfWeek>) : RecyclerView.Adapter<MyViewHolder>() {
     override fun getItemCount() = days.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.days.text = days[position].day
+        holder.binding.days.text = days[position].day + days[position].time
     }
 
 }
